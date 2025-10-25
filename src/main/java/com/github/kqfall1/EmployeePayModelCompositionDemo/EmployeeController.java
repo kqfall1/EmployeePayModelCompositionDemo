@@ -1,5 +1,7 @@
 package com.github.kqfall1.EmployeePayModelCompositionDemo;
 
+import java.math.BigDecimal;
+
 import static java.math.BigDecimal.*;
 
 /**
@@ -8,7 +10,7 @@ import static java.math.BigDecimal.*;
  * @author Quinn Keenan
  * @since 23/10/2025
  */
-class EmployeeController
+final class EmployeeController
 {
 	private EmployeeController() {}
 
@@ -17,19 +19,25 @@ class EmployeeController
 		var commission = new PayModel(valueOf(3.5), ZERO, ZERO);
 		var emp = new Employee("Harry Hacker", commission);
 		emp.setSales(valueOf(213471.82));
-		System.out.printf("%s was paid %.2f.\n", emp, emp.pay());
+		emp.setBonusAmount(BigDecimal.valueOf(20000));
+		var empString = emp.toString();
+		System.out.printf("%s was paid %.2f.\n", empString, emp.pay());
 
 		var hourly = new PayModel(ZERO, valueOf(18.65), ZERO);
 		emp.setHoursWorkedInPayPeriod(valueOf(52.56));
 		emp.setPayModel(hourly);
-		System.out.printf("%s was paid %.2f.\n", emp, emp.pay());
+		empString = emp.toString();
+		System.out.printf("%s was paid %.2f.\n", empString, emp.pay());
 
 		var salary = new PayModel(ZERO, ZERO, valueOf(121565));
+		emp.setBonusAmount(BigDecimal.valueOf(10000));
 		emp.setPayModel(salary);
-		System.out.printf("%s was paid %.2f.\n", emp, emp.pay());
+		empString = emp.toString();
+		System.out.printf("%s was paid %.2f.\n", empString, emp.pay());
 
 		var commissionSalary = new PayModel(valueOf(1.75), ZERO, valueOf(95250));
 		emp.setPayModel(commissionSalary);
-		System.out.printf("%s was paid %.2f.\n", emp, emp.pay());
+		empString = emp.toString();
+		System.out.printf("%s was paid %.2f.\n", empString, emp.pay());
 	}
 }

@@ -15,7 +15,7 @@ import static com.github.kqfall1.handlers.input.InputHandler.validateNumber;
  * @author Quinn Keenan
  * @since 24/10/2025
  */
-class PayModel implements Commission, Salary, Wage
+final class PayModel implements Commission, Salary, Wage
 {
  	/**
  	 * Expressed as a double between 0 and 100.
@@ -81,13 +81,15 @@ class PayModel implements Commission, Salary, Wage
 	/**
  	* Sums the returned values from all methods originating from implemented,
 	 * payment-related interfaces.
+	 * @param bonusAmount Should correspond to an {@code Employee.bonusAmount} field.
  	* @param hoursWorked Should correspond to an {@code Employee.hoursWorkedInPayPeriod} field.
  	* @param sales Should correspond to an {@code Employee.sales} field.
  	* @return The sum of all methods originating from implemented, payment-related interfaces.
  	*/
-	public BigDecimal payout(BigDecimal hoursWorked, BigDecimal sales)
+	public BigDecimal payout(BigDecimal bonusAmount, BigDecimal hoursWorked, BigDecimal sales)
 	{
-		return commissionPayout(sales)
+		return bonusAmount
+			.add(commissionPayout(sales))
 			.add(salaryPayout())
 			.add(wagePayout(hoursWorked));
 	}

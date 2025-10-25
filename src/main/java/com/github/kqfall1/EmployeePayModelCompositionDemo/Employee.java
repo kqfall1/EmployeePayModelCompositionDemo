@@ -10,6 +10,7 @@ import java.math.BigDecimal;
  */
 final class Employee
 {
+	private BigDecimal bonusAmount;
 	private BigDecimal hoursWorkedInPayPeriod;
 	private final int id;
 	private final String name;
@@ -19,12 +20,18 @@ final class Employee
 
 	Employee(String name, PayModel payModel)
 	{
+		setBonusAmount(BigDecimal.ZERO);
 		setHoursWorkedInPayPeriod(BigDecimal.ZERO);
 		id = ++nextId;
 		InputHandler.validateInputWasEntered(name);
 		this.name = name;
 		setPayModel(payModel);
 		setSales(BigDecimal.ZERO);
+	}
+
+	BigDecimal getBonusAmount()
+	{
+		return bonusAmount;
 	}
 
 	BigDecimal getHoursWorkedInPayPeriod()
@@ -54,15 +61,27 @@ final class Employee
 
 	/**
  	* Invokes the {@code pay} method of this {@code Employee} object's {@code payModel}.
-	 * Resets {@code hoursWorkedInPayPeriod} and {@code sales}.
+	 * Resets {@code bonusAmount}, {@code hoursWorkedInPayPeriod}, and {@code sales}.
  	* @return A {@code BigDecimal} representing the earnings of this {@code Employee}.
  	*/
 	BigDecimal pay()
 	{
-		BigDecimal pay = payModel.payout(hoursWorkedInPayPeriod, sales);
+		BigDecimal pay = payModel.payout(bonusAmount, hoursWorkedInPayPeriod, sales);
+		bonusAmount = BigDecimal.ZERO;
 		hoursWorkedInPayPeriod = BigDecimal.ZERO;
 		sales = BigDecimal.ZERO;
 		return pay;
+	}
+	void setBonusAmount(BigDecimal bonusAmount)
+	{
+		InputHandler.validateNumber(
+			bonusAmount.doubleValue(),
+			"bonusAmount",
+			0,
+			Float.MAX_VALUE
+		);
+
+		this.bonusAmount = bonusAmount;
 	}
 
 	void setHoursWorkedInPayPeriod(BigDecimal hoursWorkedInPayPeriod)
@@ -98,10 +117,11 @@ final class Employee
 	@Override
 	public String toString()
 	{
-		return String.format("%s[id=%d,name=%s,hoursWorkedInPayPeriod=%s,payModel=%s,sales=%s]",
+		return String.format("%s[id=%d,name=%s,bonusAmount=%s,hoursWorkedInPayPeriod=%s,payModel=%s,sales=%s]",
 			getClass().getName(),
 			getId(),
 			getName(),
+			getBonusAmount(),
 			getHoursWorkedInPayPeriod(),
 			getPayModel(),
 			getSales()
