@@ -3,7 +3,7 @@ package com.github.kqfall1.EmployeePayModelCompositionDemo;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import static com.github.kqfall1.handlers.input.InputHandler.validateNumber;
+import static com.github.kqfall1.java.validators.InputValidator.validateNumber;
 
 /**
  * Encapsulates fields and logic needed for paying employees.

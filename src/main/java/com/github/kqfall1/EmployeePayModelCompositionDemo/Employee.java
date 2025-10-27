@@ -1,6 +1,6 @@
 package com.github.kqfall1.EmployeePayModelCompositionDemo;
 
-import com.github.kqfall1.handlers.input.InputHandler;
+import com.github.kqfall1.java.validators.InputValidator;
 import java.math.BigDecimal;
 
 /**
@@ -23,7 +23,7 @@ final class Employee
 		setBonusAmount(BigDecimal.ZERO);
 		setHoursWorkedInPayPeriod(BigDecimal.ZERO);
 		id = ++nextId;
-		InputHandler.validateInputWasEntered(name);
+		InputValidator.validateObjIsNotNull("name", name);
 		this.name = name;
 		setPayModel(payModel);
 		setSales(BigDecimal.ZERO);
@@ -74,7 +74,7 @@ final class Employee
 	}
 	void setBonusAmount(BigDecimal bonusAmount)
 	{
-		InputHandler.validateNumber(
+		InputValidator.validateNumber(
 			bonusAmount.doubleValue(),
 			"bonusAmount",
 			0,
@@ -86,7 +86,7 @@ final class Employee
 
 	void setHoursWorkedInPayPeriod(BigDecimal hoursWorkedInPayPeriod)
 	{
-		InputHandler.validateNumber(
+		InputValidator.validateNumber(
 			hoursWorkedInPayPeriod.doubleValue(),
 			"hoursSinceLastPay",
 			0,
@@ -98,13 +98,13 @@ final class Employee
 
 	void setPayModel(PayModel payModel)
 	{
-		InputHandler.validateObjIsNotNull("payModel", payModel);
+		InputValidator.validateObjIsNotNull("payModel", payModel);
 		this.payModel = payModel;
 	}
 
 	void setSales(BigDecimal sales)
 	{
-		InputHandler.validateNumber(
+		InputValidator.validateNumber(
 			sales.doubleValue(),
 			"sales",
 			0,
